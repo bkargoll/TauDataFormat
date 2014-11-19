@@ -20,8 +20,10 @@ class DataMCType{
 	     DY_ee=31,
 	     DY_mumu=32,
 	     DY_tautau=33,
-	     DY_emu_embedded=34,
-	     DY_mutau_embedded=35,
+	     DY_emu_embedded=34, // RecHit embedding
+	     DY_mutau_embedded=35, // RecHit embedding
+	     DY_emu_PFembedded=36, // PF embedding
+	     DY_mutau_PFembedded=37, // PF embedding
 	     ZZ=50, 
 	     WW=51, 
 	     WZ=52,

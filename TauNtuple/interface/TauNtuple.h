@@ -285,7 +285,7 @@ private:
 	edm::InputTag generalTracks_;
 	edm::InputTag gensrc_;
 	edm::InputTag GenEventInfo_;
-	bool Embedded_; //embedding
+	unsigned Embedded_; // 0 = no embedding, 1 = RecHit embedding, 2 = PF embedding
 	//edm::InputTag reducedEBRecHitCollection_;
 	//edm::InputTag reducedEERecHitCollection_;
 	// Electron MVA ID
@@ -937,9 +937,9 @@ private:
 	float TauSpinnerWeight;
 	float SelEffWeight;
 	float MinVisPtFilter;
-	float KinWeightPt;
-	float KinWeightEta;
-	float KinWeightMassPt;
+	float KinWeightPt; // deprecated
+	float KinWeightEta; // deprecated
+	float KinWeightMassPt; // deprecated
 	float EmbeddedWeight;
 
 	//====== Tracks =======

@@ -36,6 +36,8 @@ unsigned int DataMCType::GetType(TString name){
   if(name=="dy_tautau") return DY_tautau;
   if(name=="dy_emu_embedded") return DY_emu_embedded;
   if(name=="dy_mutau_embedded") return DY_mutau_embedded;
+  if(name=="dy_emu_pfembedded") return DY_emu_PFembedded;
+  if(name=="dy_mutau_pfembedded") return DY_mutau_PFembedded;
   if(name=="zz")        return ZZ;
   if(name=="ww")        return WW;
   if(name=="wz")        return WZ;

@@ -123,7 +123,7 @@ TauNtuple::TauNtuple(const edm::ParameterSet& iConfig) :
 		generalTracks_(iConfig.getParameter<edm::InputTag>("generalTracks")),
 		gensrc_(iConfig.getParameter<edm::InputTag>("gensrc")),
 		GenEventInfo_(iConfig.getParameter<edm::InputTag>("GenEventInfo")),
-		Embedded_(iConfig.getUntrackedParameter("Embedded", (bool) false)),
+		Embedded_(iConfig.getUntrackedParameter("Embedded", (unsigned) 0)),
 		//embedding
 		ElectronMVATrigWeights1_(iConfig.getUntrackedParameter<std::string>("EleMVATrigWeights1")), // Electron MVA ID
 		ElectronMVATrigWeights2_(iConfig.getUntrackedParameter<std::string>("EleMVATrigWeights2")), //  |
@@ -2866,7 +2866,6 @@ void TauNtuple::fillEventInfo(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		beamspot_betaStar = -999;
 	}
 
-	// Add Embedding info
 	if (Event_isRealData && Embedded_)
 		Event_isRealData = false;
 	if (!Event_isRealData && !Embedded_) {
@@ -2912,14 +2911,14 @@ void TauNtuple::fillEventInfo(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
 	}
-	if (!Embedded_) {
-		TauSpinnerWeight = 1.;
-		SelEffWeight = 1.;
-		MinVisPtFilter = 1.;
-		KinWeightPt = 1.;
-		KinWeightEta = 1.;
-		KinWeightMassPt = 1.;
-	} else {
+
+	// Add Embedding info
+	// Attention: Weights to be used are different between RecHit and PF embedding
+	// have a look here:
+	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/MuonTauReplacementWithPFlow#Event_Content
+	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/MuonTauReplacementRecHit#Event_Weights
+	if (Embedded_ == 1) {
+		// RecHit embedding
 		edm::InputTag tauspinner("TauSpinnerReco", "TauSpinnerWT");
 		edm::Handle<double> TauSpinnerRecoHandle;
 		iEvent.getByLabel(tauspinner, TauSpinnerRecoHandle);
@@ -2935,6 +2934,7 @@ void TauNtuple::fillEventInfo(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		iEvent.getByLabel(generator, generatorHandle);
 		MinVisPtFilter = generatorHandle->filterEfficiency();
 
+		// outdated weights, are only kept here for reference
 		edm::InputTag kinweightpt("embeddingKineReweightRECembedding", "genTau2PtVsGenTau1Pt");
 		edm::Handle<double> embeddingKineReweightRECembeddingPtHandle;
 		iEvent.getByLabel(kinweightpt, embeddingKineReweightRECembeddingPtHandle);
@@ -2949,11 +2949,33 @@ void TauNtuple::fillEventInfo(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		edm::Handle<double> embeddingKineReweightRECembeddingMassPtHandle;
 		iEvent.getByLabel(kinweightmasspt, embeddingKineReweightRECembeddingEtaHandle);
 		KinWeightMassPt = *embeddingKineReweightRECembeddingEtaHandle;
+	} else if (Embedded_ == 2) {
+		// PF embedding
+		edm::InputTag generator("generator", "minVisPtFilter");
+		edm::Handle<GenFilterInfo> generatorHandle;
+		iEvent.getByLabel(generator, generatorHandle);
+		MinVisPtFilter = generatorHandle->filterEfficiency();
+
+		TauSpinnerWeight = 1.;
+		SelEffWeight = 1.;
+		KinWeightPt = 1.;
+		KinWeightEta = 1.;
+		KinWeightMassPt = 1.;
+	}
+	else {
+		if (Embedded_ != 0) std::cout << "WARNING: Code of embedding sample not known" << std::endl;
+		TauSpinnerWeight = 1.;
+		SelEffWeight = 1.;
+		MinVisPtFilter = 1.;
+		KinWeightPt = 1.;
+		KinWeightEta = 1.;
+		KinWeightMassPt = 1.;
 	}
 	EmbeddedWeight = TauSpinnerWeight * SelEffWeight * MinVisPtFilter * KinWeightPt * KinWeightEta * KinWeightMassPt;
 	if (EmbeddedWeight != TauSpinnerWeight * SelEffWeight * MinVisPtFilter * KinWeightPt * KinWeightEta * KinWeightMassPt) {
 		std::cout << "!!! Calculation of embedding weights faulty. Check your code !!!" << std::endl;
 	}
+
 }
 
 void TauNtuple::beginJob() {
