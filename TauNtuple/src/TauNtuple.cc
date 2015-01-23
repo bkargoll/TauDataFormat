@@ -544,9 +544,9 @@ void TauNtuple::fillPrimeVertex(edm::Event& iEvent, const edm::EventSetup& iSetu
 			Vtx_x.push_back(pv.x());
 			Vtx_y.push_back(pv.y());
 			Vtx_z.push_back(pv.z());
-			std::vector<std::vector<float> > iVtx_Cov;
+			std::vector<std::vector<double> > iVtx_Cov;
 			for (int j = 0; j < ndim; j++) {
-				iVtx_Cov.push_back(std::vector<float>());
+				iVtx_Cov.push_back(std::vector<double>());
 				for (int k = 0; k <= j; k++) {
 					iVtx_Cov.at(j).push_back(pv.covariance(j, k));
 				}
@@ -554,14 +554,13 @@ void TauNtuple::fillPrimeVertex(edm::Event& iEvent, const edm::EventSetup& iSetu
 			Vtx_Cov.push_back(iVtx_Cov);
 			std::vector<int> matches;
 			std::vector<float> TrackWeights;
-			std::vector<std::vector<float> > iVtx_TrackP4;
-			// Vtx_TracksP4.push_back(std::vector<std::vector<float>  >());
+			std::vector<std::vector<double> > iVtx_TrackP4;
 			for (reco::Vertex::trackRef_iterator iTrack = pv.tracks_begin(); iTrack < pv.tracks_end(); iTrack++) {
 				int match(-1);
 				reco::TrackRef refTrack = iTrack->castTo<reco::TrackRef>();
 				if (refTrack.isNonnull()) {
-					std::vector<float> iiVtx_TrackP4;
-					float trkEnergy = sqrt(refTrack->px() * refTrack->px() + refTrack->py() * refTrack->py() + refTrack->pz() * refTrack->pz() + 0.13957 * 0.13957);
+					std::vector<double> iiVtx_TrackP4;
+					double trkEnergy = sqrt(refTrack->px() * refTrack->px() + refTrack->py() * refTrack->py() + refTrack->pz() * refTrack->pz() + 0.13957 * 0.13957);
 					iiVtx_TrackP4.push_back(trkEnergy);
 					iiVtx_TrackP4.push_back(refTrack->px());
 					iiVtx_TrackP4.push_back(refTrack->py());
@@ -588,12 +587,12 @@ void TauNtuple::fillMuons(edm::Event& iEvent, const edm::EventSetup& iSetup, edm
 	for (reco::MuonCollection::const_iterator iMuon = muonCollection->begin(); iMuon != muonCollection->end(); ++iMuon, Muon_index++) {
 		reco::MuonRef RefMuon(muonCollection, Muon_index);
 		if (isGoodMuon(RefMuon)) {
-			std::vector<float> iMuon_Poca;
+			std::vector<double> iMuon_Poca;
 			iMuon_Poca.push_back(RefMuon->vx());
 			iMuon_Poca.push_back(RefMuon->vy());
 			iMuon_Poca.push_back(RefMuon->vz());
 			Muon_Poca.push_back(iMuon_Poca);
-			std::vector<float> iMuon_p4;
+			std::vector<double> iMuon_p4;
 			iMuon_p4.push_back(RefMuon->p4().E());
 			iMuon_p4.push_back(RefMuon->p4().Px());
 			iMuon_p4.push_back(RefMuon->p4().Py());
@@ -715,9 +714,9 @@ void TauNtuple::fillMuons(edm::Event& iEvent, const edm::EventSetup& iSetup, edm
 
 			reco::TrackRef Track = RefMuon->track();
 			int ntp = Muon_par.size();
-			Muon_par.push_back(std::vector<float>());
-			Muon_cov.push_back(std::vector<float>());
-			if (isGoodMuon(RefMuon) && Track.isNonnull()) {
+			Muon_par.push_back(std::vector<double>());
+			Muon_cov.push_back(std::vector<double>());
+			if (Track.isNonnull()) {
 				GlobalPoint pvpoint(Track->vx(), Track->vy(), Track->vz());
 				edm::ESHandle<TransientTrackBuilder> transTrackBuilder;
 				iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder", transTrackBuilder);
@@ -879,7 +878,7 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 	for (unsigned iPFTau = 0; iPFTau < HPStaus->size(); ++iPFTau) {
 		reco::PFTauRef HPStauCandidate(HPStaus, iPFTau);
 		if((*HPSByDecayModeFinding)[HPStauCandidate]){
-			PFTau_Photons_p4_inDR05.push_back(std::vector<std::vector<float> >());
+			PFTau_Photons_p4_inDR05.push_back(std::vector<std::vector<double> >());
 			PFTau_photon_hasPixelSeed.push_back(std::vector<int> ());
 			PFTau_photon_hadronicOverEm.push_back(std::vector<float> ());
 			PFTau_photon_sigmaIetaIeta.push_back(std::vector<float> ());
@@ -887,15 +886,15 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			PFTau_photon_ecalRecHitSumEtConeDR04.push_back(std::vector<float> ());
 			PFTau_photon_hcalTowerSumEtConeDR04.push_back(std::vector<float> ());
 
-			PFTau_PionsP4.push_back(std::vector<std::vector<float> >());
-			PFTau_PionsCharge.push_back(std::vector<double> ());
-			std::vector<float> iPFTau_Poca;
+			PFTau_PionsP4.push_back(std::vector<std::vector<double> >());
+			PFTau_PionsCharge.push_back(std::vector<int> ());
+			std::vector<double> iPFTau_Poca;
 			iPFTau_Poca.push_back(HPStauCandidate->vx());
 			iPFTau_Poca.push_back(HPStauCandidate->vy());
 			iPFTau_Poca.push_back(HPStauCandidate->vz());
 			PFTau_Poca.push_back(iPFTau_Poca);
 
-			std::vector<float> iPFTau_p4;
+			std::vector<double> iPFTau_p4;
 			iPFTau_p4.push_back(HPStauCandidate->p4().E());
 			iPFTau_p4.push_back(HPStauCandidate->p4().Px());
 			iPFTau_p4.push_back(HPStauCandidate->p4().Py());
@@ -946,46 +945,46 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 
 			////////////////////////////////////////////////////////////////////////////////
 			int Ntau = PFTau_daughterTracks.size();
-			PFTau_TIP_secondaryVertex_vtxchi2.push_back(std::vector<float>());
-			PFTau_TIP_secondaryVertex_vtxndof.push_back(std::vector<float>());
-			PFTau_TIP_primaryVertex_vtxchi2.push_back(std::vector<float>());
-			PFTau_TIP_primaryVertex_vtxndof.push_back(std::vector<float>());
-			PFTau_TIP_primaryVertex_pos.push_back(std::vector<float>());
-			PFTau_TIP_primaryVertex_cov.push_back(std::vector<float>());
-			PFTau_TIP_secondaryVertex_pos.push_back(std::vector<float>());
-			PFTau_TIP_secondaryVertex_cov.push_back(std::vector<float>());
-			PFTau_a1_lvp.push_back(std::vector<float>());
-			PFTau_a1_cov.push_back(std::vector<float>());
+			PFTau_TIP_secondaryVertex_vtxchi2.push_back(std::vector<double>());
+			PFTau_TIP_secondaryVertex_vtxndof.push_back(std::vector<double>());
+			PFTau_TIP_primaryVertex_vtxchi2.push_back(std::vector<double>());
+			PFTau_TIP_primaryVertex_vtxndof.push_back(std::vector<double>());
+			PFTau_TIP_primaryVertex_pos.push_back(std::vector<double>());
+			PFTau_TIP_primaryVertex_cov.push_back(std::vector<double>());
+			PFTau_TIP_secondaryVertex_pos.push_back(std::vector<double>());
+			PFTau_TIP_secondaryVertex_cov.push_back(std::vector<double>());
+			PFTau_a1_lvp.push_back(std::vector<double>());
+			PFTau_a1_cov.push_back(std::vector<double>());
 
-			PFTau_daughterTracks.push_back(std::vector<std::vector<float> >());
-			PFTau_daughterTracks_cov.push_back(std::vector<std::vector<float> >());
+			PFTau_daughterTracks.push_back(std::vector<std::vector<double> >());
+			PFTau_daughterTracks_cov.push_back(std::vector<std::vector<double> >());
 			PFTau_daughterTracks_charge.push_back(std::vector<int>());
 			PFTau_daughterTracks_pdgid.push_back(std::vector<int>());
-			PFTau_daughterTracks_B.push_back(std::vector<float>());
-			PFTau_daughterTracks_M.push_back(std::vector<float>());
-			PFTau_daughterTracks_poca.push_back(std::vector<std::vector<float> >());
+			PFTau_daughterTracks_B.push_back(std::vector<double>());
+			PFTau_daughterTracks_M.push_back(std::vector<double>());
+			PFTau_daughterTracks_poca.push_back(std::vector<std::vector<double> >());
 
 			PFTau_3PS_LCchi2.push_back(std::vector<float>());
 			PFTau_3PS_has3ProngSolution.push_back(std::vector<int>());
-			PFTau_3PS_Tau_LV.push_back(std::vector<std::vector<float> >());
+			PFTau_3PS_Tau_LV.push_back(std::vector<std::vector<double> >());
 
 			//
 			PFTau_a1_charge.push_back(std::vector<int>());
 			PFTau_a1_pdgid.push_back(std::vector<int>());
-			PFTau_a1_B.push_back(std::vector<float>());
-			PFTau_a1_M.push_back(std::vector<float>());
+			PFTau_a1_B.push_back(std::vector<double>());
+			PFTau_a1_M.push_back(std::vector<double>());
 			// 3PS stuff is not filled at the moment, as it is dependent on HighPt branch of PFTau
 			// once HighPt-PFTaus are available, have a look at commit 6dfabd41
 			// https://github.com/inugent/TauDataFormat/blob/6dfabd410141b55891f4275145ddb4583e1324a2/TauNtuple/src/TauNtuple.cc
-			PFTau_3PS_A1_LV.push_back(std::vector<float>());
-			PFTau_3PS_M_A1.push_back(std::vector<float>());
-			PFTau_3PS_M_12.push_back(std::vector<float>());
-			PFTau_3PS_M_13.push_back(std::vector<float>());
-			PFTau_3PS_M_23.push_back(std::vector<float>());
+			PFTau_3PS_A1_LV.push_back(std::vector<double>());
+			PFTau_3PS_M_A1.push_back(std::vector<double>());
+			PFTau_3PS_M_12.push_back(std::vector<double>());
+			PFTau_3PS_M_13.push_back(std::vector<double>());
+			PFTau_3PS_M_23.push_back(std::vector<double>());
 			PFTau_3PS_Tau_Charge.push_back(std::vector<int>());
 
-			PFTau_TIP_flightLength.push_back(std::vector<float>());
-			PFTau_TIP_flightLengthSig.push_back(std::vector<float>());
+			PFTau_TIP_flightLength.push_back(std::vector<double>());
+			PFTau_TIP_flightLengthSig.push_back(std::vector<double>());
 
 			edm::ESHandle<TransientTrackBuilder> transTrackBuilder;
 			iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder", transTrackBuilder);
@@ -1026,10 +1025,10 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			}
 			//--------------------  get photons found in the cone of 0.5 around tau candidate ----------------------------------------
 			//			std::cout<<" ---->  "<< iPFTau<< "  photon size   "  << PhotonCollection->size() <<std::endl;
-			std::vector<std::vector<float> > photonsp4;
+			std::vector<std::vector<double> > photonsp4;
 			TLorentzVector VisibleTauLV(iPFTau_p4.at(1),iPFTau_p4.at(2),iPFTau_p4.at(3),iPFTau_p4.at(0) );
 			for(unsigned int iPhot = 0; iPhot < PhotonCollection->size(); iPhot++){
-			  std::vector<float>  iiGammaP4;
+			  std::vector<double>  iiGammaP4;
 
 			  reco::PhotonRef photon(PhotonCollection,iPhot);
 			  TLorentzVector PhotonLV(photon->p4().Px(), photon->p4().Py(), photon->p4().Pz(), photon->p4().E());
@@ -1053,13 +1052,13 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			}
 
 			//PiZero stuff
-			std::vector<float> iPFTau_MatchedPFJetP4;
-			std::vector<std::vector<float> > iPFGamma_p4;
-			std::vector<std::vector<float> > iSCVariables;
-			std::vector<std::vector<float> > iPhotVariables;
+			std::vector<double> iPFTau_MatchedPFJetP4;
+			std::vector<std::vector<double> > iPFGamma_p4;
+			std::vector<std::vector<double> > iSCVariables;
+			std::vector<std::vector<double> > iPhotVariables;
 			std::vector<int> hasSC;
 			std::vector<int> hasPhoton;
-			float jetphotonEnergyFraction(0);
+			double jetphotonEnergyFraction(0);
 
 			edm::Handle<reco::PFJetCollection> JetCollection;
 			iEvent.getByLabel(pfjetsTag_, JetCollection);
@@ -1077,9 +1076,9 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 					std::vector<reco::PFCandidatePtr> PFJetGammas = pfphotons(*MatchedPFjet);
 
 					for (unsigned int iGamma = 0; iGamma < PFJetGammas.size(); iGamma++) {
-						std::vector<float> iiPFGamma_p4;
-						std::vector<float> iiSCVariables;
-						std::vector<float> iiPhotVariables;
+						std::vector<double> iiPFGamma_p4;
+						std::vector<double> iiSCVariables;
+						std::vector<double> iiPhotVariables;
 
 						iiPFGamma_p4.push_back(PFJetGammas.at(iGamma)->p4().E());
 						iiPFGamma_p4.push_back(PFJetGammas.at(iGamma)->p4().Px());
@@ -1286,7 +1285,7 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 					std::vector<reco::Track> Tracks;
 					std::vector<LorentzVectorParticle> ReFitPions;
 					for (unsigned int i = 0; i < transTrkVect.size(); i++) {
-						std::vector<float> iPionP4;
+						std::vector<double> iPionP4;
 						std::vector<double> iPionCharge;
 						c += transTrkVect.at(i).charge();
 						ReFitPions.push_back(ParticleBuilder::CreateLorentzVectorParticle(transTrkVect.at(i), transTrackBuilder, secondaryVertex, true, true));
@@ -1326,9 +1325,9 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			GlobalPoint pvpoint(primaryVertex.position().x(), primaryVertex.position().y(), primaryVertex.position().z());
 			for (reco::PFCandidateRefVector::const_iterator iter = cands.begin(); iter != cands.end(); ++iter) {
 				int Npi = PFTau_daughterTracks.at(Ntau).size();
-				PFTau_daughterTracks_poca.at(Ntau).push_back(std::vector<float>());
-				PFTau_daughterTracks.at(Ntau).push_back(std::vector<float>());
-				PFTau_daughterTracks_cov.at(Ntau).push_back(std::vector<float>());
+				PFTau_daughterTracks_poca.at(Ntau).push_back(std::vector<double>());
+				PFTau_daughterTracks.at(Ntau).push_back(std::vector<double>());
+				PFTau_daughterTracks_cov.at(Ntau).push_back(std::vector<double>());
 				//
 				bool hastrack(false);
 				reco::TransientTrack transTrk;
@@ -1361,14 +1360,14 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			reco::PFCandidateRefVector ChargedHadrCand = HPStauCandidate->signalPFChargedHadrCands();
 			const std::vector<reco::RecoTauPiZero> PiZeroCandiate = HPStauCandidate->signalPiZeroCandidates();
 
-			std::vector<std::vector<float> > iPFTau_PiZeroP4;
+			std::vector<std::vector<double> > iPFTau_PiZeroP4;
 			std::vector<int> iPFTau_PiZeroNumOfPhotons;
 			std::vector<int> iPFTau_PiZeroNumOfElectrons;
 
 			if (PiZeroCandiate.size() != 0) {
 				for (unsigned int Pi0Index = 0; Pi0Index < PiZeroCandiate.size(); Pi0Index++) {
 					reco::RecoTauPiZero iPi0 = PiZeroCandiate.at(Pi0Index);
-					std::vector<float> iiPFTau_PiZeroP4;
+					std::vector<double> iiPFTau_PiZeroP4;
 
 					iiPFTau_PiZeroP4.push_back(iPi0.p4().E());
 					iiPFTau_PiZeroP4.push_back(iPi0.p4().Px());
@@ -1385,11 +1384,11 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			PFTau_PiZeroNumOfPhotons.push_back(iPFTau_PiZeroNumOfPhotons);
 			PFTau_PiZeroNumOfElectrons.push_back(iPFTau_PiZeroNumOfElectrons);
 
-			std::vector<std::vector<float> > iPFTau_GammaP4;
+			std::vector<std::vector<double> > iPFTau_GammaP4;
 			if (GammaCandidate.size() != 0) {
 				for (unsigned int iGamma = 0; iGamma < GammaCandidate.size(); iGamma++) {
 					reco::PFCandidateRef GammaCand(GammaCandidate, iGamma);
-					std::vector<float> iiPFTau_GammaP4;
+					std::vector<double> iiPFTau_GammaP4;
 
 					iiPFTau_GammaP4.push_back(GammaCand->p4().E());
 					iiPFTau_GammaP4.push_back(GammaCand->p4().Px());
@@ -1400,12 +1399,12 @@ void TauNtuple::fillPFTaus(edm::Event& iEvent, const edm::EventSetup& iSetup, ed
 			}
 			PFTau_GammaP4.push_back(iPFTau_GammaP4);
 
-			std::vector<std::vector<float> > iPFTau_ChargedHadronP4;
+			std::vector<std::vector<double> > iPFTau_ChargedHadronP4;
 			std::vector<std::vector<int> > iPFTau_ChargedHadronsCharge;
 			if (ChargedHadrCand.size() != 0) {
 				for (unsigned int iChargedHadron = 0; iChargedHadron < ChargedHadrCand.size(); iChargedHadron++) {
 					reco::PFCandidateRef ChargeHadronCand(ChargedHadrCand, iChargedHadron);
-					std::vector<float> iiPFTau_ChargedHadronP4;
+					std::vector<double> iiPFTau_ChargedHadronP4;
 					std::vector<int> iiPFTau_ChargedHadronsCharge;
 					if (ChargedHadrCand.at(iChargedHadron)->trackRef().isNonnull()) {
 						iiPFTau_ChargedHadronP4.push_back(sqrt(pow(ChargedHadrCand.at(iChargedHadron)->trackRef()->p(), 2.0) + pow(0.13957018, 2.0)));
@@ -3997,7 +3996,7 @@ std::vector<bool> TauNtuple::CheckTauDiscriminators(std::vector<edm::Handle<reco
 //
 // finds HPS tau candidate for a given KinFit tau candidate
 // the closest by deltaR HPS candidate is accepted
-reco::PFTauRef TauNtuple::getMatchedHPSTau(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<float> &UnmodifiedTau, int &match) {
+reco::PFTauRef TauNtuple::getMatchedHPSTau(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<double> &UnmodifiedTau, int &match) {
 	TLorentzVector TauVisible;
 	TauVisible.SetE(UnmodifiedTau.at(0));
 	TauVisible.SetPx(UnmodifiedTau.at(1));
@@ -4052,7 +4051,7 @@ std::vector<reco::PFCandidatePtr> TauNtuple::pfphotons(const reco::PFJet& jet, b
 //
 // finds HPS tau candidate for a given KinFit tau candidate
 // the closest by deltaR HPS candidate is accepted
-reco::PFTauRef TauNtuple::getHPSTauMatchedToJet(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<float> &Jet, int &match) {
+reco::PFTauRef TauNtuple::getHPSTauMatchedToJet(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<double> &Jet, int &match) {
 	TLorentzVector Jetp4;
 	Jetp4.SetE(Jet.at(0));
 	Jetp4.SetPx(Jet.at(1));
@@ -4080,7 +4079,7 @@ reco::PFTauRef TauNtuple::getHPSTauMatchedToJet(edm::Handle<std::vector<reco::PF
 //
 // finds HPS tau candidate for a given KinFit tau candidate
 // the closest by deltaR HPS candidate is accepted
-reco::PFJetRef TauNtuple::getJetIndexMatchedToGivenHPSTauCandidate(edm::Handle<std::vector<reco::PFJet> > & PFJets, std::vector<float> &Tau, unsigned int &match) {
+reco::PFJetRef TauNtuple::getJetIndexMatchedToGivenHPSTauCandidate(edm::Handle<std::vector<reco::PFJet> > & PFJets, std::vector<double> &Tau, unsigned int &match) {
 	reco::PFJetRef MatchedPFJet;
 	double deltaR = 999;
 
