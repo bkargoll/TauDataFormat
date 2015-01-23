@@ -197,7 +197,7 @@ private:
 	void fillEventInfo(edm::Event& iEvent, const edm::EventSetup& iSetup);
 	std::vector<bool> CheckTauDiscriminators(std::vector<edm::Handle<reco::PFTauDiscriminator> > tauDiscriminators, const reco::PFTauRef tauRef);
 	reco::PFTauRef getMatchedHPSTau(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<float> &UnmodifiedTau, int &match);
-	reco::PFTauRef getHPSTauMatchedToJet(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<float> &Jet, int &match);
+	reco::PFTauRef getHPSTauMatchedToJet(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<double> &Jet, int &match);
 	reco::PFJetRef getJetIndexMatchedToGivenHPSTauCandidate(edm::Handle<std::vector<reco::PFJet> > & PFJets, std::vector<float> &Tau, unsigned int &match);
 
 	std::vector<reco::PFCandidatePtr> pfCandidates(const reco::PFJet& jet, int particleId, bool sort = true);
@@ -622,9 +622,9 @@ private:
 //   std::vector<std::vector<int> > PFTau_hasPhoton;
 
 	//=======  Electrons ===
-	float RhoIsolationAllInputTags;
-	std::vector<std::vector<float> > Electron_p4;
-	std::vector<std::vector<float> > Electron_Poca;
+	double RhoIsolationAllInputTags;
+	std::vector<std::vector<double> > Electron_p4;
+	std::vector<std::vector<double> > Electron_Poca;
 	std::vector<float> Electron_Gsf_deltaEtaEleClusterTrackAtCalo;
 	std::vector<float> Electron_Gsf_deltaEtaSeedClusterTrackAtCalo;
 	std::vector<float> Electron_Gsf_deltaEtaSuperClusterTrackAtVtx;
@@ -642,9 +642,9 @@ private:
 	std::vector<bool> Electron_Gsf_passingCutBasedPreselection;
 	std::vector<bool> Electron_Gsf_passingMvaPreselection;
 	std::vector<int> Electron_gsftrack_trackerExpectedHitsInner_numberOfLostHits;
-	std::vector<float> Electron_supercluster_e;
-	std::vector<float> Electron_supercluster_phi;
-	std::vector<float> Electron_supercluster_eta;
+	std::vector<double> Electron_supercluster_e;
+	std::vector<double> Electron_supercluster_phi;
+	std::vector<double> Electron_supercluster_eta;
 	std::vector<float> Electron_supercluster_centroid_x;
 	std::vector<float> Electron_supercluster_centroid_y;
 	std::vector<float> Electron_supercluster_centroid_z;
@@ -666,12 +666,12 @@ private:
 	std::vector<float> Electron_chargedHadronIso;
 	std::vector<float> Electron_neutralHadronIso;
 	std::vector<float> Electron_photonIso;
-	std::vector<float> Electron_isoDeposits_chargedHadronIso04;
-	std::vector<float> Electron_isoDeposits_neutralHadronIso04;
-	std::vector<float> Electron_isoDeposits_photonIso04;
-	std::vector<float> Electron_isoDeposits_chargedHadronIso03;
-	std::vector<float> Electron_isoDeposits_neutralHadronIso03;
-	std::vector<float> Electron_isoDeposits_photonIso03;
+	std::vector<double> Electron_isoDeposits_chargedHadronIso04;
+	std::vector<double> Electron_isoDeposits_neutralHadronIso04;
+	std::vector<double> Electron_isoDeposits_photonIso04;
+	std::vector<double> Electron_isoDeposits_chargedHadronIso03;
+	std::vector<double> Electron_isoDeposits_neutralHadronIso03;
+	std::vector<double> Electron_isoDeposits_photonIso03;
 
 	std::vector<float> Electron_sigmaIetaIeta;
 	std::vector<float> Electron_hadronicOverEm;
@@ -679,47 +679,47 @@ private:
 	std::vector<float> Electron_eSuperClusterOverP;
 	std::vector<float> Electron_ecalEnergy;
 	std::vector<float> Electron_trackMomentumAtVtx;
-	std::vector<float> Electron_numberOfMissedHits;  //number of missing hits conversion rejection
+	std::vector<int> Electron_numberOfMissedHits;  //number of missing hits conversion rejection
 	std::vector<bool> Electron_HasMatchedConversions;
 
 	// Electron energy calibration
-	std::vector<float> Electron_RegEnergy;
-	std::vector<float> Electron_RegEnergyError;
+	std::vector<double> Electron_RegEnergy;
+	std::vector<double> Electron_RegEnergyError;
 
 	// Electron MVA ID
-	std::vector<float> Electron_Rho_kt6PFJets;
-	std::vector<float> Electron_MVA_Trig_discriminator;
-	std::vector<float> Electron_MVA_TrigNoIP_discriminator;
-	std::vector<float> Electron_MVA_NonTrig_discriminator;
+	std::vector<double> Electron_Rho_kt6PFJets;
+	std::vector<double> Electron_MVA_Trig_discriminator;
+	std::vector<double> Electron_MVA_TrigNoIP_discriminator;
+	std::vector<double> Electron_MVA_NonTrig_discriminator;
 
 	std::vector<int> Electron_charge;
 	std::vector<int> Electron_trackCharge;
 	std::vector<int> Electron_pdgid;
-	std::vector<float> Electron_B;
-	std::vector<float> Electron_M;
-	std::vector<std::vector<float> > Electron_par;
-	std::vector<std::vector<float> > Electron_cov;
+	std::vector<double> Electron_B;
+	std::vector<double> Electron_M;
+	std::vector<std::vector<double> > Electron_par;
+	std::vector<std::vector<double> > Electron_cov;
 
 	//=======  PFJets ===
-	std::vector<std::vector<float> > PFJet_p4;
+	std::vector<std::vector<double> > PFJet_p4;
 	std::vector<float> PFJet_chargedEmEnergy;
 	std::vector<float> PFJet_chargedHadronEnergy;
-	std::vector<float> PFJet_chargedHadronMultiplicity;
+	std::vector<int> PFJet_chargedHadronMultiplicity;
 	std::vector<float> PFJet_chargedMuEnergy;
-	std::vector<float> PFJet_chargedMultiplicity;
+	std::vector<int> PFJet_chargedMultiplicity;
 	std::vector<float> PFJet_electronEnergy;
-	std::vector<float> PFJet_electronMultiplicity;
+	std::vector<int> PFJet_electronMultiplicity;
 	std::vector<float> PFJet_HFEMEnergy;
-	std::vector<float> PFJet_HFEMMultiplicity;
+	std::vector<int> PFJet_HFEMMultiplicity;
 	std::vector<float> PFJet_HFHadronEnergy;
-	std::vector<float> PFJet_HFHadronMultiplicity;
+	std::vector<int> PFJet_HFHadronMultiplicity;
 	std::vector<float> PFJet_muonEnergy;
-	std::vector<float> PFJet_muonMultiplicity;
+	std::vector<int> PFJet_muonMultiplicity;
 	std::vector<float> PFJet_neutralEmEnergy;
 	std::vector<float> PFJet_neutralHadronEnergy;
-	std::vector<float> PFJet_neutralHadronMultiplicity;
+	std::vector<int> PFJet_neutralHadronMultiplicity;
 	std::vector<float> PFJet_photonEnergy;
-	std::vector<float> PFJet_photonMultiplicity;
+	std::vector<int> PFJet_photonMultiplicity;
 	std::vector<float> PFJet_jetArea;
 	std::vector<float> PFJet_maxDistance;
 	std::vector<int> PFJet_nConstituents;
@@ -730,12 +730,12 @@ private:
 	std::vector<int> PFJet_MatchedHPS_idx;
 
 	std::vector<float> PFJet_PUJetID_discr;
-	std::vector<float> PFJet_PUJetID_looseWP;
-	std::vector<float> PFJet_PUJetID_mediumWP;
-	std::vector<float> PFJet_PUJetID_tightWP;
+	std::vector<bool> PFJet_PUJetID_looseWP;
+	std::vector<bool> PFJet_PUJetID_mediumWP;
+	std::vector<bool> PFJet_PUJetID_tightWP;
 
-	std::vector<std::vector<std::vector<float> > > PFJet_TracksP4;
-	std::vector<float> PFJet_nTrk;
+	std::vector<std::vector<std::vector<double> > > PFJet_TracksP4;
+	std::vector<int> PFJet_nTrk;
 
 	std::vector<int> PFJet_numberOfDaughters;
 	std::vector<float> PFJet_chargedEmEnergyFraction;
@@ -743,7 +743,7 @@ private:
 	std::vector<float> PFJet_neutralHadronEnergyFraction;
 	std::vector<float> PFJet_neutralEmEnergyFraction;
 
-	std::vector<float> PFJet_partonFlavour;
+	std::vector<int> PFJet_partonFlavour;
 	std::vector<float> PFJet_bDiscriminator;
 	std::vector<std::vector<float> > PFJet_BTagWeight;
 	//std::vector<std::string> PFJet_bTagAlgorithmName;
@@ -751,243 +751,195 @@ private:
 
 	std::vector<float> PFJet_JECuncertainty;
 
-	std::vector<std::vector<float> > PFJet_GenJet_p4;
-	std::vector<std::vector<std::vector<float> > > PFJet_GenJet_Constituents_p4;
-	std::vector<std::vector<float> > PFJet_GenJetNoNu_p4;
-	std::vector<std::vector<std::vector<float> > > PFJet_GenJetNoNu_Constituents_p4;
+	std::vector<std::vector<double> > PFJet_GenJet_p4;
+	std::vector<std::vector<std::vector<double> > > PFJet_GenJet_Constituents_p4;
+	std::vector<std::vector<double> > PFJet_GenJetNoNu_p4;
+	std::vector<std::vector<std::vector<double> > > PFJet_GenJetNoNu_Constituents_p4;
 
 	//=======  MET ===
 	// now only PFMET
-	float MET_Uncorr_et;
+	double MET_Uncorr_et;
 	float MET_Uncorr_pt;
-	float MET_Uncorr_phi;
+	double MET_Uncorr_phi;
 	float MET_Uncorr_sumET;
-	float MET_Uncorr_significance;
-	float MET_Uncorr_significance_xx;
-	float MET_Uncorr_significance_xy;
-	float MET_Uncorr_significance_yy;
+	double MET_Uncorr_significance;
+	double MET_Uncorr_significance_xx;
+	double MET_Uncorr_significance_xy;
+	double MET_Uncorr_significance_yy;
 	float MET_Uncorr_MuonEtFraction;
 	float MET_Uncorr_NeutralEMFraction;
 	float MET_Uncorr_NeutralHadEtFraction;
 	float MET_Uncorr_Type6EtFraction;
 	float MET_Uncorr_Type7EtFraction;
 
-	float MET_CorrT0rt_et;
+	double MET_CorrT0rt_et;
 	float MET_CorrT0rt_pt;
-	float MET_CorrT0rt_phi;
+	double MET_CorrT0rt_phi;
 	float MET_CorrT0rt_sumET;
-	float MET_CorrT0rt_significance;
-	float MET_CorrT0rt_significance_xx;
-	float MET_CorrT0rt_significance_xy;
-	float MET_CorrT0rt_significance_yy;
 	float MET_CorrT0rt_MuonEtFraction;
 	float MET_CorrT0rt_NeutralEMFraction;
 	float MET_CorrT0rt_NeutralHadEtFraction;
 	float MET_CorrT0rt_Type6EtFraction;
 	float MET_CorrT0rt_Type7EtFraction;
 
-	float MET_CorrT0rtT1_et;
+	double MET_CorrT0rtT1_et;
 	float MET_CorrT0rtT1_pt;
-	float MET_CorrT0rtT1_phi;
+	double MET_CorrT0rtT1_phi;
 	float MET_CorrT0rtT1_sumET;
-	float MET_CorrT0rtT1_significance;
-	float MET_CorrT0rtT1_significance_xx;
-	float MET_CorrT0rtT1_significance_xy;
-	float MET_CorrT0rtT1_significance_yy;
 	float MET_CorrT0rtT1_MuonEtFraction;
 	float MET_CorrT0rtT1_NeutralEMFraction;
 	float MET_CorrT0rtT1_NeutralHadEtFraction;
 	float MET_CorrT0rtT1_Type6EtFraction;
 	float MET_CorrT0rtT1_Type7EtFraction;
 
-	float MET_CorrT0pc_et;
+	double MET_CorrT0pc_et;
 	float MET_CorrT0pc_pt;
-	float MET_CorrT0pc_phi;
+	double MET_CorrT0pc_phi;
 	float MET_CorrT0pc_sumET;
-	float MET_CorrT0pc_significance;
-	float MET_CorrT0pc_significance_xx;
-	float MET_CorrT0pc_significance_xy;
-	float MET_CorrT0pc_significance_yy;
 	float MET_CorrT0pc_MuonEtFraction;
 	float MET_CorrT0pc_NeutralEMFraction;
 	float MET_CorrT0pc_NeutralHadEtFraction;
 	float MET_CorrT0pc_Type6EtFraction;
 	float MET_CorrT0pc_Type7EtFraction;
 
-	float MET_CorrT0pcT1_et;
+	double MET_CorrT0pcT1_et;
 	float MET_CorrT0pcT1_pt;
-	float MET_CorrT0pcT1_phi;
+	double MET_CorrT0pcT1_phi;
 	float MET_CorrT0pcT1_sumET;
-	float MET_CorrT0pcT1_significance;
-	float MET_CorrT0pcT1_significance_xx;
-	float MET_CorrT0pcT1_significance_xy;
-	float MET_CorrT0pcT1_significance_yy;
 	float MET_CorrT0pcT1_MuonEtFraction;
 	float MET_CorrT0pcT1_NeutralEMFraction;
 	float MET_CorrT0pcT1_NeutralHadEtFraction;
 	float MET_CorrT0pcT1_Type6EtFraction;
 	float MET_CorrT0pcT1_Type7EtFraction;
 
-	float MET_CorrT0rtTxy_et;
+	double MET_CorrT0rtTxy_et;
 	float MET_CorrT0rtTxy_pt;
-	float MET_CorrT0rtTxy_phi;
+	double MET_CorrT0rtTxy_phi;
 	float MET_CorrT0rtTxy_sumET;
-	float MET_CorrT0rtTxy_significance;
-	float MET_CorrT0rtTxy_significance_xx;
-	float MET_CorrT0rtTxy_significance_xy;
-	float MET_CorrT0rtTxy_significance_yy;
 	float MET_CorrT0rtTxy_MuonEtFraction;
 	float MET_CorrT0rtTxy_NeutralEMFraction;
 	float MET_CorrT0rtTxy_NeutralHadEtFraction;
 	float MET_CorrT0rtTxy_Type6EtFraction;
 	float MET_CorrT0rtTxy_Type7EtFraction;
 
-	float MET_CorrT0rtT1Txy_et;
+	double MET_CorrT0rtT1Txy_et;
 	float MET_CorrT0rtT1Txy_pt;
-	float MET_CorrT0rtT1Txy_phi;
+	double MET_CorrT0rtT1Txy_phi;
 	float MET_CorrT0rtT1Txy_sumET;
-	float MET_CorrT0rtT1Txy_significance;
-	float MET_CorrT0rtT1Txy_significance_xx;
-	float MET_CorrT0rtT1Txy_significance_xy;
-	float MET_CorrT0rtT1Txy_significance_yy;
 	float MET_CorrT0rtT1Txy_MuonEtFraction;
 	float MET_CorrT0rtT1Txy_NeutralEMFraction;
 	float MET_CorrT0rtT1Txy_NeutralHadEtFraction;
 	float MET_CorrT0rtT1Txy_Type6EtFraction;
 	float MET_CorrT0rtT1Txy_Type7EtFraction;
 
-	float MET_CorrT0pcTxy_et;
+	double MET_CorrT0pcTxy_et;
 	float MET_CorrT0pcTxy_pt;
-	float MET_CorrT0pcTxy_phi;
+	double MET_CorrT0pcTxy_phi;
 	float MET_CorrT0pcTxy_sumET;
-	float MET_CorrT0pcTxy_significance;
-	float MET_CorrT0pcTxy_significance_xx;
-	float MET_CorrT0pcTxy_significance_xy;
-	float MET_CorrT0pcTxy_significance_yy;
 	float MET_CorrT0pcTxy_MuonEtFraction;
 	float MET_CorrT0pcTxy_NeutralEMFraction;
 	float MET_CorrT0pcTxy_NeutralHadEtFraction;
 	float MET_CorrT0pcTxy_Type6EtFraction;
 	float MET_CorrT0pcTxy_Type7EtFraction;
 
-	float MET_CorrT0pcT1Txy_et;
+	double MET_CorrT0pcT1Txy_et;
 	float MET_CorrT0pcT1Txy_pt;
-	float MET_CorrT0pcT1Txy_phi;
+	double MET_CorrT0pcT1Txy_phi;
 	float MET_CorrT0pcT1Txy_sumET;
-	float MET_CorrT0pcT1Txy_significance;
-	float MET_CorrT0pcT1Txy_significance_xx;
-	float MET_CorrT0pcT1Txy_significance_xy;
-	float MET_CorrT0pcT1Txy_significance_yy;
 	float MET_CorrT0pcT1Txy_MuonEtFraction;
 	float MET_CorrT0pcT1Txy_NeutralEMFraction;
 	float MET_CorrT0pcT1Txy_NeutralHadEtFraction;
 	float MET_CorrT0pcT1Txy_Type6EtFraction;
 	float MET_CorrT0pcT1Txy_Type7EtFraction;
 
-	float MET_CorrT1_et;
+	double MET_CorrT1_et;
 	float MET_CorrT1_pt;
-	float MET_CorrT1_phi;
+	double MET_CorrT1_phi;
 	float MET_CorrT1_sumET;
-	float MET_CorrT1_significance;
-	float MET_CorrT1_significance_xx;
-	float MET_CorrT1_significance_xy;
-	float MET_CorrT1_significance_yy;
 	float MET_CorrT1_MuonEtFraction;
 	float MET_CorrT1_NeutralEMFraction;
 	float MET_CorrT1_NeutralHadEtFraction;
 	float MET_CorrT1_Type6EtFraction;
 	float MET_CorrT1_Type7EtFraction;
 
-	float MET_CorrT1Txy_et;
+	double MET_CorrT1Txy_et;
 	float MET_CorrT1Txy_pt;
-	float MET_CorrT1Txy_phi;
+	double MET_CorrT1Txy_phi;
 	float MET_CorrT1Txy_sumET;
-	float MET_CorrT1Txy_significance;
-	float MET_CorrT1Txy_significance_xx;
-	float MET_CorrT1Txy_significance_xy;
-	float MET_CorrT1Txy_significance_yy;
 	float MET_CorrT1Txy_MuonEtFraction;
 	float MET_CorrT1Txy_NeutralEMFraction;
 	float MET_CorrT1Txy_NeutralHadEtFraction;
 	float MET_CorrT1Txy_Type6EtFraction;
 	float MET_CorrT1Txy_Type7EtFraction;
 
-	float MET_CorrCaloT1_et;
+	double MET_CorrCaloT1_et;
 	float MET_CorrCaloT1_pt;
-	float MET_CorrCaloT1_phi;
+	double MET_CorrCaloT1_phi;
 	float MET_CorrCaloT1_sumET;
-	float MET_CorrCaloT1_significance;
-	float MET_CorrCaloT1_significance_xx;
-	float MET_CorrCaloT1_significance_xy;
-	float MET_CorrCaloT1_significance_yy;
 
-	float MET_CorrCaloT1T2_et;
+	double MET_CorrCaloT1T2_et;
 	float MET_CorrCaloT1T2_pt;
-	float MET_CorrCaloT1T2_phi;
+	double MET_CorrCaloT1T2_phi;
 	float MET_CorrCaloT1T2_sumET;
-	float MET_CorrCaloT1T2_significance;
-	float MET_CorrCaloT1T2_significance_xx;
-	float MET_CorrCaloT1T2_significance_xy;
-	float MET_CorrCaloT1T2_significance_yy;
 
-	float MET_CorrMVA_et;
+	double MET_CorrMVA_et;
 	float MET_CorrMVA_pt;
-	float MET_CorrMVA_phi;
+	double MET_CorrMVA_phi;
 	float MET_CorrMVA_sumET;
-	float MET_CorrMVA_significance;
-	float MET_CorrMVA_significance_xx;
-	float MET_CorrMVA_significance_xy;
-	float MET_CorrMVA_significance_yy;
+	double MET_CorrMVA_significance;
+	double MET_CorrMVA_significance_xx;
+	double MET_CorrMVA_significance_xy;
+	double MET_CorrMVA_significance_yy;
 	float MET_CorrMVA_MuonEtFraction;
 	float MET_CorrMVA_NeutralEMFraction;
 	float MET_CorrMVA_NeutralHadEtFraction;
 	float MET_CorrMVA_Type6EtFraction;
 	float MET_CorrMVA_Type7EtFraction;
-	std::vector<std::vector<float> > MET_CorrMVA_srcMuon_p4;
-	std::vector<std::vector<float> > MET_CorrMVA_srcElectron_p4;
-	std::vector<std::vector<float> > MET_CorrMVA_srcTau_p4;
+	std::vector<std::vector<double> > MET_CorrMVA_srcMuon_p4;
+	std::vector<std::vector<double> > MET_CorrMVA_srcElectron_p4;
+	std::vector<std::vector<double> > MET_CorrMVA_srcTau_p4;
 
-	float MET_CorrMVAMuTau_et;
+	double MET_CorrMVAMuTau_et;
 	float MET_CorrMVAMuTau_pt;
-	float MET_CorrMVAMuTau_phi;
+	double MET_CorrMVAMuTau_phi;
 	float MET_CorrMVAMuTau_sumET;
-	float MET_CorrMVAMuTau_significance;
-	float MET_CorrMVAMuTau_significance_xx;
-	float MET_CorrMVAMuTau_significance_xy;
-	float MET_CorrMVAMuTau_significance_yy;
+	double MET_CorrMVAMuTau_significance;
+	double MET_CorrMVAMuTau_significance_xx;
+	double MET_CorrMVAMuTau_significance_xy;
+	double MET_CorrMVAMuTau_significance_yy;
 	float MET_CorrMVAMuTau_MuonEtFraction;
 	float MET_CorrMVAMuTau_NeutralEMFraction;
 	float MET_CorrMVAMuTau_NeutralHadEtFraction;
 	float MET_CorrMVAMuTau_Type6EtFraction;
 	float MET_CorrMVAMuTau_Type7EtFraction;
-	std::vector<std::vector<float> > MET_CorrMVAMuTau_srcMuon_p4;
-	std::vector<std::vector<float> > MET_CorrMVAMuTau_srcTau_p4;
+	std::vector<std::vector<double> > MET_CorrMVAMuTau_srcMuon_p4;
+	std::vector<std::vector<double> > MET_CorrMVAMuTau_srcTau_p4;
 
-	float MET_Type1CorrElectronUp_et;
-	float MET_Type1CorrElectronDown_et;
-	float MET_Type1CorrMuonUp_et;
-	float MET_Type1CorrMuonDown_et;
-	float MET_Type1CorrTauUp_et;
-	float MET_Type1CorrTauDown_et;
-	float MET_Type1CorrJetResUp_et;
-	float MET_Type1CorrJetResDown_et;
-	float MET_Type1CorrJetEnUp_et;
-	float MET_Type1CorrJetEnDown_et;
-	float MET_Type1CorrUnclusteredUp_et;
-	float MET_Type1CorrUnclusteredDown_et;
+	double MET_Type1CorrElectronUp_et;
+	double MET_Type1CorrElectronDown_et;
+	double MET_Type1CorrMuonUp_et;
+	double MET_Type1CorrMuonDown_et;
+	double MET_Type1CorrTauUp_et;
+	double MET_Type1CorrTauDown_et;
+	double MET_Type1CorrJetResUp_et;
+	double MET_Type1CorrJetResDown_et;
+	double MET_Type1CorrJetEnUp_et;
+	double MET_Type1CorrJetEnDown_et;
+	double MET_Type1CorrUnclusteredUp_et;
+	double MET_Type1CorrUnclusteredDown_et;
 
-	float MET_Type1p2CorrElectronUp_et;
-	float MET_Type1p2CorrElectronDown_et;
-	float MET_Type1p2CorrMuonUp_et;
-	float MET_Type1p2CorrMuonDown_et;
-	float MET_Type1p2CorrTauUp_et;
-	float MET_Type1p2CorrTauDown_et;
-	float MET_Type1p2CorrJetResUp_et;
-	float MET_Type1p2CorrJetResDown_et;
-	float MET_Type1p2CorrJetEnUp_et;
-	float MET_Type1p2CorrJetEnDown_et;
-	float MET_Type1p2CorrUnclusteredUp_et;
-	float MET_Type1p2CorrUnclusteredDown_et;
+	double MET_Type1p2CorrElectronUp_et;
+	double MET_Type1p2CorrElectronDown_et;
+	double MET_Type1p2CorrMuonUp_et;
+	double MET_Type1p2CorrMuonDown_et;
+	double MET_Type1p2CorrTauUp_et;
+	double MET_Type1p2CorrTauDown_et;
+	double MET_Type1p2CorrJetResUp_et;
+	double MET_Type1p2CorrJetResDown_et;
+	double MET_Type1p2CorrJetEnUp_et;
+	double MET_Type1p2CorrJetEnDown_et;
+	double MET_Type1p2CorrUnclusteredUp_et;
+	double MET_Type1p2CorrUnclusteredDown_et;
 
 	//=======  Event ===
 	int EventNumber;
@@ -1009,11 +961,11 @@ private:
 	float PUWeight3D_m5;
 	float PUWeightFineBins;
 
-	std::vector<float> beamspot_par;
-	std::vector<float> beamspot_cov;
-	float beamspot_emittanceX;
-	float beamspot_emittanceY;
-	float beamspot_betaStar;
+	std::vector<double> beamspot_par;
+	std::vector<double> beamspot_cov;
+	double beamspot_emittanceX;
+	double beamspot_emittanceY;
+	double beamspot_betaStar;
 
 	// for embedded samples
 	float TauSpinnerWeight;
@@ -1045,7 +997,7 @@ private:
 	std::vector<unsigned int> HLTPrescale;
 	std::vector<unsigned int> NHLTL1GTSeeds;
 	std::vector<unsigned int> L1SEEDPrescale;
-	std::vector<unsigned int> L1SEEDisTechBit;
+	std::vector<bool> L1SEEDisTechBit;
 	std::vector<bool> L1SEEDInvalidPrescale;
 	std::vector<bool> TriggerAccept;
 	std::vector<bool> TriggerWasRun;
