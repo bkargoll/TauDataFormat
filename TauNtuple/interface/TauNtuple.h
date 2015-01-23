@@ -196,9 +196,9 @@ private:
 	void TriggerMatch(edm::Handle<trigger::TriggerEvent> &triggerEvent, unsigned int triggerIndex, T obj, double drmax, std::vector<float> &match);
 	void fillEventInfo(edm::Event& iEvent, const edm::EventSetup& iSetup);
 	std::vector<bool> CheckTauDiscriminators(std::vector<edm::Handle<reco::PFTauDiscriminator> > tauDiscriminators, const reco::PFTauRef tauRef);
-	reco::PFTauRef getMatchedHPSTau(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<float> &UnmodifiedTau, int &match);
+	reco::PFTauRef getMatchedHPSTau(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<double> &UnmodifiedTau, int &match);
 	reco::PFTauRef getHPSTauMatchedToJet(edm::Handle<std::vector<reco::PFTau> > & HPStaus, std::vector<double> &Jet, int &match);
-	reco::PFJetRef getJetIndexMatchedToGivenHPSTauCandidate(edm::Handle<std::vector<reco::PFJet> > & PFJets, std::vector<float> &Tau, unsigned int &match);
+	reco::PFJetRef getJetIndexMatchedToGivenHPSTauCandidate(edm::Handle<std::vector<reco::PFJet> > & PFJets, std::vector<double> &Tau, unsigned int &match);
 
 	std::vector<reco::PFCandidatePtr> pfCandidates(const reco::PFJet& jet, int particleId, bool sort = true);
 	std::vector<reco::PFCandidatePtr> pfCandidates(const reco::PFJet& jet, const std::vector<int>& particleIds, bool sort);
@@ -432,22 +432,22 @@ private:
 	int cnt_;
 
 	//=======  Vertex ===
-	std::vector<float> Vtx_chi2;
-	std::vector<float> Vtx_nTrk;
+	std::vector<double> Vtx_chi2;
+	std::vector<unsigned> Vtx_nTrk;
 	std::vector<float> Vtx_ndof;
-	std::vector<float> Vtx_y;
-	std::vector<float> Vtx_x;
-	std::vector<float> Vtx_z;
-	std::vector<std::vector<std::vector<float> > > Vtx_Cov;
+	std::vector<double> Vtx_y;
+	std::vector<double> Vtx_x;
+	std::vector<double> Vtx_z;
+	std::vector<std::vector<std::vector<double> > > Vtx_Cov;
 	std::vector<std::vector<int> > Vtx_Track_idx;
 	std::vector<std::vector<float> > Vtx_Track_Weights;
 	std::vector<bool> Vtx_isFake;
 
-	std::vector<std::vector<std::vector<float> > > Vtx_TracksP4;
+	std::vector<std::vector<std::vector<double> > > Vtx_TracksP4;
 
 	//=======  Muons ===
-	std::vector<std::vector<float> > Muon_p4;
-	std::vector<std::vector<float> > Muon_Poca;
+	std::vector<std::vector<double> > Muon_p4;
+	std::vector<std::vector<double> > Muon_Poca;
 	std::vector<bool> Muon_isGlobalMuon;
 	std::vector<bool> Muon_isStandAloneMuon;
 	std::vector<bool> Muon_isTrackerMuon;
@@ -461,8 +461,8 @@ private:
 	std::vector<float> Muon_emVetoEt03;
 	std::vector<float> Muon_hadEt03;
 	std::vector<float> Muon_hadVetoEt03;
-	std::vector<float> Muon_nJets03;
-	std::vector<float> Muon_nTracks03;
+	std::vector<int> Muon_nJets03;
+	std::vector<int> Muon_nTracks03;
 	std::vector<float> Muon_sumPt03;
 	std::vector<float> Muon_trackerVetoPt03;
 
@@ -470,8 +470,8 @@ private:
 	std::vector<float> Muon_emVetoEt05;
 	std::vector<float> Muon_hadEt05;
 	std::vector<float> Muon_hadVetoEt05;
-	std::vector<float> Muon_nJets05;
-	std::vector<float> Muon_nTracks05;
+	std::vector<int> Muon_nJets05;
+	std::vector<int> Muon_nTracks05;
 	std::vector<float> Muon_sumPt05;
 	std::vector<float> Muon_trackerVetoPt05;
 
@@ -497,23 +497,23 @@ private:
 	std::vector<int> Muon_charge;
 	std::vector<int> Muon_trackCharge;
 	std::vector<int> Muon_pdgid;
-	std::vector<float> Muon_B;
-	std::vector<float> Muon_M;
-	std::vector<std::vector<float> > Muon_par;
-	std::vector<std::vector<float> > Muon_cov;
+	std::vector<double> Muon_B;
+	std::vector<double> Muon_M;
+	std::vector<std::vector<double> > Muon_par;
+	std::vector<std::vector<double> > Muon_cov;
 
-	std::vector<float> Muon_hitPattern_pixelLayerwithMeas;
-	std::vector<float> Muon_numberOfMatchedStations;
+	std::vector<int> Muon_hitPattern_pixelLayerwithMeas;
+	std::vector<int> Muon_numberOfMatchedStations;
 	std::vector<float> Muon_normChi2;
-	std::vector<float> Muon_hitPattern_numberOfValidMuonHits;
-	std::vector<float> Muon_innerTrack_numberofValidHits;
+	std::vector<int> Muon_hitPattern_numberOfValidMuonHits;
+	std::vector<int> Muon_innerTrack_numberofValidHits;
 	std::vector<int> Muon_numberofValidPixelHits;
-	std::vector<float> Muon_numberOfMatches;
+	std::vector<int> Muon_numberOfMatches;
 	std::vector<int> Muon_trackerLayersWithMeasurement;
 
 	//======= PFTaus ===
-	std::vector<std::vector<float> > PFTau_p4;
-	std::vector<std::vector<float> > PFTau_Poca;
+	std::vector<std::vector<double> > PFTau_p4;
+	std::vector<std::vector<double> > PFTau_Poca;
 	std::vector<bool> PFTau_isTightIsolation;
 	std::vector<bool> PFTau_isMediumIsolation;
 	std::vector<bool> PFTau_isLooseIsolation;
@@ -552,62 +552,62 @@ private:
 	std::vector<int> PFTau_Charge;
 	std::vector<std::vector<int> > PFTau_Track_idx;
 
-	std::vector<std::vector<float> > PFTau_TIP_primaryVertex_pos;
-	std::vector<std::vector<float> > PFTau_TIP_primaryVertex_cov;
-	std::vector<std::vector<float> > PFTau_TIP_secondaryVertex_pos;
-	std::vector<std::vector<float> > PFTau_TIP_secondaryVertex_cov;
-	std::vector<std::vector<float> > PFTau_TIP_secondaryVertex_vtxchi2;
-	std::vector<std::vector<float> > PFTau_TIP_secondaryVertex_vtxndof;
-	std::vector<std::vector<float> > PFTau_TIP_primaryVertex_vtxchi2;
-	std::vector<std::vector<float> > PFTau_TIP_primaryVertex_vtxndof;
+	std::vector<std::vector<double> > PFTau_TIP_primaryVertex_pos;
+	std::vector<std::vector<double> > PFTau_TIP_primaryVertex_cov;
+	std::vector<std::vector<double> > PFTau_TIP_secondaryVertex_pos;
+	std::vector<std::vector<double> > PFTau_TIP_secondaryVertex_cov;
+	std::vector<std::vector<double> > PFTau_TIP_secondaryVertex_vtxchi2;
+	std::vector<std::vector<double> > PFTau_TIP_secondaryVertex_vtxndof;
+	std::vector<std::vector<double> > PFTau_TIP_primaryVertex_vtxchi2;
+	std::vector<std::vector<double> > PFTau_TIP_primaryVertex_vtxndof;
 
-	std::vector<std::vector<float> > PFTau_a1_lvp;
-	std::vector<std::vector<float> > PFTau_a1_cov;
+	std::vector<std::vector<double> > PFTau_a1_lvp;
+	std::vector<std::vector<double> > PFTau_a1_cov;
 	std::vector<std::vector<int> > PFTau_a1_charge;
 	std::vector<std::vector<int> > PFTau_a1_pdgid;
-	std::vector<std::vector<float> > PFTau_a1_B;
-	std::vector<std::vector<float> > PFTau_a1_M;
+	std::vector<std::vector<double> > PFTau_a1_B;
+	std::vector<std::vector<double> > PFTau_a1_M;
 
-	std::vector<std::vector<std::vector<float> > > PFTau_daughterTracks;
-	std::vector<std::vector<std::vector<float> > > PFTau_daughterTracks_cov;
+	std::vector<std::vector<std::vector<double> > > PFTau_daughterTracks;
+	std::vector<std::vector<std::vector<double> > > PFTau_daughterTracks_cov;
 	std::vector<std::vector<int> > PFTau_daughterTracks_charge;
 	std::vector<std::vector<int> > PFTau_daughterTracks_pdgid;
-	std::vector<std::vector<float> > PFTau_daughterTracks_B;
-	std::vector<std::vector<float> > PFTau_daughterTracks_M;
-	std::vector<std::vector<std::vector<float> > > PFTau_daughterTracks_poca;
+	std::vector<std::vector<double> > PFTau_daughterTracks_B;
+	std::vector<std::vector<double> > PFTau_daughterTracks_M;
+	std::vector<std::vector<std::vector<double> > > PFTau_daughterTracks_poca;
 
-	std::vector<std::vector<std::vector<float> > > PFTau_PionsP4;
-	std::vector<std::vector<double> >  PFTau_PionsCharge;
+	std::vector<std::vector<std::vector<double> > > PFTau_PionsP4;
+	std::vector<std::vector<int> >  PFTau_PionsCharge;
 
 
-	std::vector<std::vector<float> > PFTau_3PS_A1_LV;
-	std::vector<std::vector<float> > PFTau_3PS_M_A1;
-	std::vector<std::vector<float> > PFTau_3PS_M_12;
-	std::vector<std::vector<float> > PFTau_3PS_M_13;
-	std::vector<std::vector<float> > PFTau_3PS_M_23;
+	std::vector<std::vector<double> > PFTau_3PS_A1_LV;
+	std::vector<std::vector<double> > PFTau_3PS_M_A1;
+	std::vector<std::vector<double> > PFTau_3PS_M_12;
+	std::vector<std::vector<double> > PFTau_3PS_M_13;
+	std::vector<std::vector<double> > PFTau_3PS_M_23;
 	std::vector<std::vector<int> > PFTau_3PS_Tau_Charge;
 	std::vector<std::vector<float> > PFTau_3PS_LCchi2;
 	std::vector<std::vector<int> > PFTau_3PS_has3ProngSolution;
-	std::vector<std::vector<std::vector<float> > > PFTau_3PS_Tau_LV;
+	std::vector<std::vector<std::vector<double> > > PFTau_3PS_Tau_LV;
 
-	std::vector<std::vector<float> > PFTau_TIP_flightLength;
-	std::vector<std::vector<float> > PFTau_TIP_flightLengthSig;
+	std::vector<std::vector<double> > PFTau_TIP_flightLength;
+	std::vector<std::vector<double> > PFTau_TIP_flightLengthSig;
 
-	std::vector<std::vector<std::vector<float> > > PFTau_PiZeroP4;
+	std::vector<std::vector<std::vector<double> > > PFTau_PiZeroP4;
 	std::vector<std::vector<int> > PFTau_PiZeroNumOfPhotons;
 	std::vector<std::vector<int> > PFTau_PiZeroNumOfElectrons;
-	std::vector<std::vector<std::vector<float> > > PFTau_ChargedHadronsP4;
+	std::vector<std::vector<std::vector<double> > > PFTau_ChargedHadronsP4;
 	std::vector<std::vector<std::vector<int> > > PFTau_ChargedHadronsCharge;
-	std::vector<std::vector<std::vector<float> > > PFTau_GammaP4;
-	std::vector<std::vector<std::vector<float> > > PFTau_Photons_p4_inDR05;
+	std::vector<std::vector<std::vector<double> > > PFTau_GammaP4;
+	std::vector<std::vector<std::vector<double> > > PFTau_Photons_p4_inDR05;
 	//-------- Gamma information ---------
 
-	std::vector<std::vector<float> > PFTau_MatchedPFJetP4;
-	std::vector<std::vector<std::vector<float> > > PFTau_MatchedPFJetGammasP4;
-	std::vector<std::vector<std::vector<float> > > PFTau_MatchedPFJetSCVariables;
-	std::vector<std::vector<std::vector<float> > > PFTau_MatchedPFJetPhotonVariables;
+	std::vector<std::vector<double> > PFTau_MatchedPFJetP4;
+	std::vector<std::vector<std::vector<double> > > PFTau_MatchedPFJetGammasP4;
+	std::vector<std::vector<std::vector<double> > > PFTau_MatchedPFJetSCVariables;
+	std::vector<std::vector<std::vector<double> > > PFTau_MatchedPFJetPhotonVariables;
 
-	std::vector<float> PFTau_PhotonEnergyFraction;
+	std::vector<double> PFTau_PhotonEnergyFraction;
 
         std::vector<std::vector<int> > PFTau_photon_hasPixelSeed;
         std::vector<std::vector<float> > PFTau_photon_hadronicOverEm;
