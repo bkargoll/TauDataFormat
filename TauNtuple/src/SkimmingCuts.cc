@@ -96,13 +96,10 @@ bool SkimmingCuts::ElectronCuts(edm::Event& iEvent, const edm::EventSetup& iSetu
 
 bool SkimmingCuts::PFTauCuts(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	edm::Handle<std::vector<reco::PFTau> > PFTaus;
-	iEvent.getByLabel(
-			edm::InputTag(TauNtuple::hpsTauProducer_, "", "TauNtuple"), PFTaus);
+	iEvent.getByLabel(TauNtuple::hpsTauProducer_, PFTaus);
 
 	edm::Handle<reco::PFTauDiscriminator> HPSByDecayModeFinding;
-	iEvent.getByLabel(
-			edm::InputTag("hpsPFTauDiscriminationByDecayModeFinding", "",
-					"TauNtuple"), HPSByDecayModeFinding);
+	iEvent.getByLabel(edm::InputTag("hpsPFTauDiscriminationByDecayModeFinding", "","TauNtupleProcess"), HPSByDecayModeFinding);
 
 	for (unsigned int iPFTau = 0; iPFTau < PFTaus->size(); iPFTau++) {
 		reco::PFTauRef PFTauCand(PFTaus, iPFTau);
