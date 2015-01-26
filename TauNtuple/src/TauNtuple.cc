@@ -135,6 +135,7 @@ TauNtuple::TauNtuple(const edm::ParameterSet& iConfig) :
 		patMETCorrMVA_(iConfig.getParameter<edm::InputTag>("patMetCorrMVA")),
 		patMETCorrMVAMuTau_(iConfig.getParameter<edm::InputTag>("patMetCorrMVAMuTau")),
 		patMETUncorr_(iConfig.getParameter<edm::InputTag>("patMetUncorr")),
+		patMETType1Corr_(iConfig.getParameter<edm::InputTag>("patMETType1Corr")),
 		patMETType1CorrEleEnUp_(iConfig.getParameter<edm::InputTag>("patMETType1CorrEleEnUp")),
 		patMETType1CorrEleEnDown_(iConfig.getParameter<edm::InputTag>("patMETType1CorrEleEndown")),
 		patMETType1CorrMuEnUp_(iConfig.getParameter<edm::InputTag>("patMETType1CorrMuEnUp")),
@@ -147,6 +148,7 @@ TauNtuple::TauNtuple(const edm::ParameterSet& iConfig) :
 		patMETType1CorrJetEnDown_(iConfig.getParameter<edm::InputTag>("patMETType1CorrJetEnDown")),
 		patMETType1CorrUnclusteredUp_(iConfig.getParameter<edm::InputTag>("patMETType1CorrUnclusteredUp")),
 		patMETType1CorrUnclusteredDown_(iConfig.getParameter<edm::InputTag>("patMETType1CorrUnclusteredDown")),
+		patMETType1p2Corr_(iConfig.getParameter<edm::InputTag>("patMETType1p2Corr")),
 		patMETType1p2CorrEleEnUp_(iConfig.getParameter<edm::InputTag>("patMETType1p2CorrEleEnUp")),
 		patMETType1p2CorrEleEnDown_(iConfig.getParameter<edm::InputTag>("patMETType1p2CorrEleEndown")),
 		patMETType1p2CorrMuEnUp_(iConfig.getParameter<edm::InputTag>("patMETType1p2CorrMuEnUp")),
@@ -437,7 +439,7 @@ void TauNtuple::fillMCTruth(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 			for (reco::GenParticleCollection::const_iterator itr = genParticles->begin(); itr != genParticles->end(); ++itr) {
 				MC_pdgid.push_back(itr->pdgId());
 				MC_charge.push_back(itr->charge());
-				std::vector<float> iMC_p4;
+				std::vector<double> iMC_p4;
 				iMC_p4.push_back(itr->p4().E());
 				iMC_p4.push_back(itr->p4().Px());
 				iMC_p4.push_back(itr->p4().Py());
@@ -471,13 +473,13 @@ void TauNtuple::fillMCTruth(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 					MCSignalParticle_pdgid.push_back(itr->pdgId());
 					MCSignalParticle_charge.push_back(itr->charge());
 					MCSignalParticle_Tauidx.push_back(std::vector<unsigned int>());
-					std::vector<float> iSig_Poca;
+					std::vector<double> iSig_Poca;
 					iSig_Poca.push_back(itr->vx());
 					iSig_Poca.push_back(itr->vy());
 					iSig_Poca.push_back(itr->vz());
 					MCSignalParticle_Poca.push_back(iSig_Poca);
 
-					std::vector<float> iSig_p4;
+					std::vector<double> iSig_p4;
 					iSig_p4.push_back(itr->p4().E());
 					iSig_p4.push_back(itr->p4().Px());
 					iSig_p4.push_back(itr->p4().Py());
@@ -499,15 +501,15 @@ void TauNtuple::fillMCTruth(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 							MCTau_DecayBitMask.push_back(TauBitMask);
 							MCTauandProd_pdgid.push_back(std::vector<int>());
 							MCTauandProd_charge.push_back(std::vector<int>());
-							MCTauandProd_p4.push_back(std::vector<std::vector<float> >());
-							MCTauandProd_Vertex.push_back(std::vector<std::vector<float> >());
+							MCTauandProd_p4.push_back(std::vector<std::vector<double> >());
+							MCTauandProd_Vertex.push_back(std::vector<std::vector<double> >());
 
 							for (unsigned int i = 0; i < TauDecayProducts.size(); i++) {
 								MCTauandProd_pdgid.at(tauidx).push_back(TauDecayProducts.at(i)->pdgId());
 								MCTauandProd_charge.at(tauidx).push_back(TauDecayProducts.at(i)->charge());
 
-								std::vector<float> iTauandProd_p4;
-								std::vector<float> iTauandProd_vertex;
+								std::vector<double> iTauandProd_p4;
+								std::vector<double> iTauandProd_vertex;
 								iTauandProd_p4.push_back(TauDecayProducts.at(i)->p4().E());
 								iTauandProd_p4.push_back(TauDecayProducts.at(i)->p4().Px());
 								iTauandProd_p4.push_back(TauDecayProducts.at(i)->p4().Py());
@@ -749,16 +751,16 @@ void TauNtuple::fillMuons(edm::Event& iEvent, const edm::EventSetup& iSetup, edm
 void TauNtuple::fillTracks(edm::Handle<std::vector<reco::Track> > &trackCollection, const edm::EventSetup& iSetup) {
 	for (unsigned int iTrack = 0; iTrack < trackCollection->size(); iTrack++) {
 		reco::TrackRef Track(trackCollection, iTrack);
-		std::vector<float> iTrack_p4;
+		std::vector<double> iTrack_p4;
 
 		//assume pion mass
-		float pionmass = PDGInfo::pi_mass();
+		double pionmass = PDGInfo::pi_mass();
 		iTrack_p4.push_back(sqrt(pow(Track->p(), 2.0) + pow(pionmass, 2.0)));
 		iTrack_p4.push_back(Track->px());
 		iTrack_p4.push_back(Track->py());
 		iTrack_p4.push_back(Track->pz());
 		Track_p4.push_back(iTrack_p4);
-		std::vector<float> iTrack_Poca;
+		std::vector<double> iTrack_Poca;
 
 		iTrack_Poca.push_back(Track->vx());
 		iTrack_Poca.push_back(Track->vy());
@@ -773,8 +775,8 @@ void TauNtuple::fillTracks(edm::Handle<std::vector<reco::Track> > &trackCollecti
 
 		GlobalPoint pvpoint(Track->vx(), Track->vy(), Track->vz());
 		int ntp = Track_par.size();
-		Track_par.push_back(std::vector<float>());
-		Track_cov.push_back(std::vector<float>());
+		Track_par.push_back(std::vector<double>());
+		Track_cov.push_back(std::vector<double>());
 		edm::ESHandle<TransientTrackBuilder> transTrackBuilder;
 		iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder", transTrackBuilder);
 		reco::TransientTrack transTrk = transTrackBuilder->build(Track);
@@ -2151,6 +2153,26 @@ void TauNtuple::fillMET(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 		MET_CorrCaloT1T2_sumET = caloMETCorrT1T2->front().sumEt();
 
 		// MET uncertainties only available in PAT
+		MET_Type1Corr_et = -1;
+		MET_Type1Corr_pt = -1;
+		MET_Type1Corr_phi = -1;
+		MET_Type1Corr_sumET = -1;
+		MET_Type1Corr_MuonEtFraction = -1;
+		MET_Type1Corr_NeutralEMFraction = -1;
+		MET_Type1Corr_NeutralHadEtFraction = -1;
+		MET_Type1Corr_Type6EtFraction = -1;
+		MET_Type1Corr_Type7EtFraction = -1;
+
+		MET_Type1p2Corr_et = -1;
+		MET_Type1p2Corr_pt = -1;
+		MET_Type1p2Corr_phi = -1;
+		MET_Type1p2Corr_sumET = -1;
+		MET_Type1p2Corr_MuonEtFraction = -1;
+		MET_Type1p2Corr_NeutralEMFraction = -1;
+		MET_Type1p2Corr_NeutralHadEtFraction = -1;
+		MET_Type1p2Corr_Type6EtFraction = -1;
+		MET_Type1p2Corr_Type7EtFraction = -1;
+
 		MET_Type1CorrElectronUp_et = -1;
 		MET_Type1CorrElectronDown_et = -1;
 		MET_Type1CorrMuonUp_et = -1;
@@ -2487,6 +2509,26 @@ void TauNtuple::fillMET(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 		MET_CorrCaloT1T2_sumET = patMETCorrCaloT1T2.sumEt();
 
 		if(iEvent.isRealData() || Embedded_){
+			MET_Type1Corr_et = -1;
+			MET_Type1Corr_pt = -1;
+			MET_Type1Corr_phi = -1;
+			MET_Type1Corr_sumET = -1;
+			MET_Type1Corr_MuonEtFraction = -1;
+			MET_Type1Corr_NeutralEMFraction = -1;
+			MET_Type1Corr_NeutralHadEtFraction = -1;
+			MET_Type1Corr_Type6EtFraction = -1;
+			MET_Type1Corr_Type7EtFraction = -1;
+
+			MET_Type1p2Corr_et = -1;
+			MET_Type1p2Corr_pt = -1;
+			MET_Type1p2Corr_phi = -1;
+			MET_Type1p2Corr_sumET = -1;
+			MET_Type1p2Corr_MuonEtFraction = -1;
+			MET_Type1p2Corr_NeutralEMFraction = -1;
+			MET_Type1p2Corr_NeutralHadEtFraction = -1;
+			MET_Type1p2Corr_Type6EtFraction = -1;
+			MET_Type1p2Corr_Type7EtFraction = -1;
+
 			MET_Type1CorrElectronUp_et = -1;
 			MET_Type1CorrElectronDown_et = -1;
 			MET_Type1CorrMuonUp_et = -1;
@@ -2520,6 +2562,14 @@ void TauNtuple::fillMET(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 			// Type1      = T0 + T1 + Txy (recommendation by JetMET POG and Christian Veelken)
 			// Type1Type2 = T0 + T1 + Txy + calibration for unclustered energy (better MET response, worse MET resolution)
 			//
+			edm::Handle<std::vector<pat::MET>> patMETType1CorrHandle;
+			iEvent.getByLabel(patMETType1Corr_, patMETType1CorrHandle);
+			pat::MET patMETType1Corr = patMETType1CorrHandle->front();
+
+			edm::Handle<std::vector<pat::MET>> patMETType1p2CorrHandle;
+			iEvent.getByLabel(patMETType1p2Corr_, patMETType1p2CorrHandle);
+			pat::MET patMETType1p2Corr = patMETType1p2CorrHandle->front();
+
 			edm::Handle<std::vector<pat::MET>> patMETType1CorrEleEnUpHandle;
 			iEvent.getByLabel(patMETType1CorrEleEnUp_,patMETType1CorrEleEnUpHandle);
 			pat::MET patMETType1CorrEleEnUp = patMETType1CorrEleEnUpHandle->front();
@@ -2615,6 +2665,30 @@ void TauNtuple::fillMET(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 			edm::Handle<std::vector<pat::MET>> patMETType1p2CorrUnclusteredDownHandle;
 			iEvent.getByLabel(patMETType1p2CorrUnclusteredDown_,patMETType1p2CorrUnclusteredDownHandle);
 			pat::MET patMETType1p2CorrUnclusteredDown = patMETType1p2CorrUnclusteredDownHandle->front();
+
+			MET_Type1Corr_et = patMETType1Corr.et();
+			MET_Type1Corr_pt = patMETType1Corr.pt();
+			MET_Type1Corr_phi = patMETType1Corr.phi();
+			MET_Type1Corr_sumET = patMETType1Corr.sumEt();
+			if(patMETType1Corr.isPFMET()){
+				MET_Type1Corr_MuonEtFraction = patMETType1Corr.MuonEtFraction();
+				MET_Type1Corr_NeutralEMFraction = patMETType1Corr.NeutralEMFraction();
+				MET_Type1Corr_NeutralHadEtFraction = patMETType1Corr.NeutralHadEtFraction();
+				MET_Type1Corr_Type6EtFraction = patMETType1Corr.Type6EtFraction();
+				MET_Type1Corr_Type7EtFraction = patMETType1Corr.Type7EtFraction();
+			}
+
+			MET_Type1p2Corr_et = patMETType1p2Corr.et();
+			MET_Type1p2Corr_pt = patMETType1p2Corr.pt();
+			MET_Type1p2Corr_phi = patMETType1p2Corr.phi();
+			MET_Type1p2Corr_sumET = patMETType1p2Corr.sumEt();
+			if(patMETType1p2Corr.isPFMET()){
+				MET_Type1p2Corr_MuonEtFraction = patMETType1p2Corr.MuonEtFraction();
+				MET_Type1p2Corr_NeutralEMFraction = patMETType1p2Corr.NeutralEMFraction();
+				MET_Type1p2Corr_NeutralHadEtFraction = patMETType1p2Corr.NeutralHadEtFraction();
+				MET_Type1p2Corr_Type6EtFraction = patMETType1p2Corr.Type6EtFraction();
+				MET_Type1p2Corr_Type7EtFraction = patMETType1p2Corr.Type7EtFraction();
+			}
 
 			MET_Type1CorrElectronUp_et = patMETType1CorrEleEnUp.et();
 			MET_Type1CorrElectronDown_et = patMETType1CorrEleEnDown.et();
@@ -3609,6 +3683,26 @@ void TauNtuple::beginJob() {
 	output_tree->Branch("MET_CorrMVAMuTau_Type7EtFraction", &MET_CorrMVAMuTau_Type7EtFraction);
 	output_tree->Branch("MET_CorrMVAMuTau_srcMuon_p4", &MET_CorrMVAMuTau_srcMuon_p4);
 	output_tree->Branch("MET_CorrMVAMuTau_srcTau_p4", &MET_CorrMVAMuTau_srcTau_p4);
+
+	output_tree->Branch("MET_Type1Corr_et", &MET_Type1Corr_et);
+	output_tree->Branch("MET_Type1Corr_pt", &MET_Type1Corr_pt);
+	output_tree->Branch("MET_Type1Corr_phi", &MET_Type1Corr_phi);
+	output_tree->Branch("MET_Type1Corr_sumET", &MET_Type1Corr_sumET);
+	output_tree->Branch("MET_Type1Corr_MuonEtFraction", &MET_Type1Corr_MuonEtFraction);
+	output_tree->Branch("MET_Type1Corr_NeutralEMFraction", &MET_Type1Corr_NeutralEMFraction);
+	output_tree->Branch("MET_Type1Corr_NeutralHadEtFraction", &MET_Type1Corr_NeutralHadEtFraction);
+	output_tree->Branch("MET_Type1Corr_Type6EtFraction", &MET_Type1Corr_Type6EtFraction);
+	output_tree->Branch("MET_Type1Corr_Type7EtFraction", &MET_Type1Corr_Type7EtFraction);
+
+	output_tree->Branch("MET_Type1p2Corr_et", &MET_Type1p2Corr_et);
+	output_tree->Branch("MET_Type1p2Corr_pt", &MET_Type1p2Corr_pt);
+	output_tree->Branch("MET_Type1p2Corr_phi", &MET_Type1p2Corr_phi);
+	output_tree->Branch("MET_Type1p2Corr_sumET", &MET_Type1p2Corr_sumET);
+	output_tree->Branch("MET_Type1p2Corr_MuonEtFraction", &MET_Type1p2Corr_MuonEtFraction);
+	output_tree->Branch("MET_Type1p2Corr_NeutralEMFraction", &MET_Type1p2Corr_NeutralEMFraction);
+	output_tree->Branch("MET_Type1p2Corr_NeutralHadEtFraction", &MET_Type1p2Corr_NeutralHadEtFraction);
+	output_tree->Branch("MET_Type1p2Corr_Type6EtFraction", &MET_Type1p2Corr_Type6EtFraction);
+	output_tree->Branch("MET_Type1p2Corr_Type7EtFraction", &MET_Type1p2Corr_Type7EtFraction);
 
 	output_tree->Branch("MET_Type1CorrElectronUp_et", &MET_Type1CorrElectronUp_et);
 	output_tree->Branch("MET_Type1CorrElectronDown_et", &MET_Type1CorrElectronDown_et);

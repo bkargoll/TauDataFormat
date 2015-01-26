@@ -296,6 +296,7 @@ private:
 	edm::InputTag patMETCorrMVAMuTau_;
 	edm::InputTag patMETUncorr_;
 	//input tags for MET systematics
+	edm::InputTag patMETType1Corr_;
 	edm::InputTag patMETType1CorrEleEnUp_;
 	edm::InputTag patMETType1CorrEleEnDown_;
 	edm::InputTag patMETType1CorrMuEnUp_;
@@ -308,6 +309,7 @@ private:
 	edm::InputTag patMETType1CorrJetEnDown_;
 	edm::InputTag patMETType1CorrUnclusteredUp_;
 	edm::InputTag patMETType1CorrUnclusteredDown_;
+	edm::InputTag patMETType1p2Corr_;
 	edm::InputTag patMETType1p2CorrEleEnUp_;
 	edm::InputTag patMETType1p2CorrEleEnDown_;
 	edm::InputTag patMETType1p2CorrMuEnUp_;
@@ -915,6 +917,26 @@ private:
 	std::vector<std::vector<double> > MET_CorrMVAMuTau_srcMuon_p4;
 	std::vector<std::vector<double> > MET_CorrMVAMuTau_srcTau_p4;
 
+	double MET_Type1Corr_et;
+	float MET_Type1Corr_pt;
+	double MET_Type1Corr_phi;
+	float MET_Type1Corr_sumET;
+	float MET_Type1Corr_MuonEtFraction;
+	float MET_Type1Corr_NeutralEMFraction;
+	float MET_Type1Corr_NeutralHadEtFraction;
+	float MET_Type1Corr_Type6EtFraction;
+	float MET_Type1Corr_Type7EtFraction;
+
+	double MET_Type1p2Corr_et;
+	float MET_Type1p2Corr_pt;
+	double MET_Type1p2Corr_phi;
+	float MET_Type1p2Corr_sumET;
+	float MET_Type1p2Corr_MuonEtFraction;
+	float MET_Type1p2Corr_NeutralEMFraction;
+	float MET_Type1p2Corr_NeutralHadEtFraction;
+	float MET_Type1p2Corr_Type6EtFraction;
+	float MET_Type1p2Corr_Type7EtFraction;
+
 	double MET_Type1CorrElectronUp_et;
 	double MET_Type1CorrElectronDown_et;
 	double MET_Type1CorrMuonUp_et;
@@ -977,20 +999,20 @@ private:
 	float EmbeddedWeight;
 
 	//====== Tracks =======
-	std::vector<std::vector<float> > Track_p4;
-	std::vector<std::vector<float> > Track_Poca;
-	std::vector<float> Track_chi2;
-	std::vector<float> Track_ndof;
+	std::vector<std::vector<double> > Track_p4;
+	std::vector<std::vector<double> > Track_Poca;
+	std::vector<double> Track_chi2;
+	std::vector<double> Track_ndof;
 	std::vector<unsigned short> Track_numberOfLostHits;
 	std::vector<unsigned short> Track_numberOfValidHits;
 	std::vector<unsigned int> Track_qualityMask;
 
 	std::vector<int> Track_charge;
 	std::vector<int> Track_pdgid;
-	std::vector<float> Track_B;
-	std::vector<float> Track_M;
-	std::vector<std::vector<float> > Track_par;
-	std::vector<std::vector<float> > Track_cov;
+	std::vector<double> Track_B;
+	std::vector<double> Track_M;
+	std::vector<std::vector<double> > Track_par;
+	std::vector<std::vector<double> > Track_cov;
 
 	//====== Trigger =======
 	std::vector<std::string> HTLTriggerName;
@@ -1023,19 +1045,19 @@ private:
 	//====== MCTruth =======
 	// verbose variables
 	std::vector<double> GenEventInfoProduct_weights;
-	float GenEventInfoProduct_signalProcessID;
+	unsigned GenEventInfoProduct_signalProcessID;
 	float GenEventInfoProduct_weight;
 	float GenEventInfoProduct_qScale;
 	float GenEventInfoProduct_alphaQED;
 	float GenEventInfoProduct_alphaQCD;
 	int GenEventInfoProduct_id1;
 	int GenEventInfoProduct_id2;
-	float GenEventInfoProduct_x1;
-	float GenEventInfoProduct_x2;
-	float GenEventInfoProduct_scalePDF;
+	double GenEventInfoProduct_x1;
+	double GenEventInfoProduct_x2;
+	double GenEventInfoProduct_scalePDF;
 
 	//do All
-	std::vector<std::vector<float> > MC_p4;
+	std::vector<std::vector<double> > MC_p4;
 	std::vector<int> MC_pdgid;
 	std::vector<std::vector<int> > MC_childpdgid;
 	std::vector<int> MC_charge;
@@ -1043,16 +1065,16 @@ private:
 	std::vector<int> MC_status;
 
 	// Signal particles Z, W, H0, Hpm
-	std::vector<std::vector<float> > MCSignalParticle_p4;
+	std::vector<std::vector<double> > MCSignalParticle_p4;
 	std::vector<int> MCSignalParticle_pdgid;
 	std::vector<std::vector<int> > MCSignalParticle_childpdgid;
 	std::vector<int> MCSignalParticle_charge;
-	std::vector<std::vector<float> > MCSignalParticle_Poca;
+	std::vector<std::vector<double> > MCSignalParticle_Poca;
 	std::vector<std::vector<unsigned int> > MCSignalParticle_Tauidx;
 
 	// MC Tau Info
-	std::vector<std::vector<std::vector<float> > > MCTauandProd_p4;
-	std::vector<std::vector<std::vector<float> > > MCTauandProd_Vertex;
+	std::vector<std::vector<std::vector<double> > > MCTauandProd_p4;
+	std::vector<std::vector<std::vector<double> > > MCTauandProd_Vertex;
 	std::vector<std::vector<int> > MCTauandProd_pdgid;
 	std::vector<std::vector<unsigned int> > MCTauandProd_midx;
 	std::vector<std::vector<int> > MCTauandProd_charge;
