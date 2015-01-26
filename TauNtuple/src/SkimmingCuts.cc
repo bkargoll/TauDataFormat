@@ -49,7 +49,7 @@ bool SkimmingCuts::filter(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 		}
 	} else {
 		std::cout << "No preselection given. Will use the following instead: one muon + one electron or tau" << std::endl;
-		if (AcceptMuon && (AcceptElectron || PFTauCuts(iEvent, iSetup))) {
+		if (AcceptMuon && PFTauCuts(iEvent, iSetup)) {
 			pass = true;
 			cntFound_++;
 		}
@@ -97,7 +97,7 @@ bool SkimmingCuts::PFTauCuts(edm::Event& iEvent, const edm::EventSetup& iSetup) 
 	iEvent.getByLabel(TauNtuple::hpsTauProducer_, PFTaus);
 
 	edm::Handle<reco::PFTauDiscriminator> HPSByDecayModeFinding;
-	iEvent.getByLabel(edm::InputTag("hpsPFTauDiscriminationByDecayModeFinding", "","TauNtuple"), HPSByDecayModeFinding);
+	iEvent.getByLabel(edm::InputTag("hpsPFTauDiscriminationByDecayModeFinding", "","TauNtupleProcess"), HPSByDecayModeFinding);
 
 	for (unsigned int iPFTau = 0; iPFTau < PFTaus->size(); iPFTau++) {
 		reco::PFTauRef PFTauCand(PFTaus, iPFTau);
