@@ -1,6 +1,6 @@
 #include "TauDataFormat/TauNtuple/interface/DataMCType.h"
 #include "SimpleFits/FitSoftware/interface/PDGInfo.h"
-#include "TauDataFormat/TauNtuple/interface/TauDecay.h"
+#include "Validation/EventGenerator/interface/TauDecay.h"
 #include <iostream>
 #include <cstdlib>
 
