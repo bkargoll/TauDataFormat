@@ -47,8 +47,13 @@ bool SkimmingCuts::filter(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 			pass = true;
 			cntFound_++;
 		}
+	} else if (preselection_ == "MuTau") {
+		if(AcceptMuon && PFTauCuts(iEvent, iSetup)) {
+			pass = true;
+			cntFound_++;
+		}
 	} else {
-		std::cout << "No preselection given. Will use the following instead: one muon + one electron or tau" << std::endl;
+		std::cout << "No preselection given. Will use the following instead: one muon + one tau" << std::endl;
 		if (AcceptMuon && PFTauCuts(iEvent, iSetup)) {
 			pass = true;
 			cntFound_++;
